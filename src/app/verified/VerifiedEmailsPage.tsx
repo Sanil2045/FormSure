@@ -5,7 +5,6 @@ import { observer } from "mobx-react-lite";
 import { useStore } from "@/store/MobxProvider";
 import Search from "@/components/Search/Search";
 import VerifiedEmails from "@/components/VerifiedEmails/VerifiedEmail";
-import { useState } from "react";
 
 type Props = {
   emails: {

@@ -20,7 +20,7 @@ const VerifiedEmails = ({emails} : verifiedEmailsProps) => {
         <thead className="bg-gray-50">
           <tr>
             <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Email</th>
-            <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Статус</th>
+            <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Status</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100">

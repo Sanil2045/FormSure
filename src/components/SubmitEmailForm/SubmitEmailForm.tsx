@@ -1,17 +1,14 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { useForm } from "react-hook-form";
-type submitEmailFormProps = {
-    
-}
 
 type FormData = {
   name: string;
   email: string;
 };
 
-const SubmitEmailForm = ({} : submitEmailFormProps) => {
+const SubmitEmailForm = () => {
     const {
         register,
         handleSubmit,
@@ -26,7 +23,6 @@ const SubmitEmailForm = ({} : submitEmailFormProps) => {
     const onSubmit = async (data: FormData) => {
         console.log("Отправка данных:", data);
         await fetch('/api/confirmation', { method: 'POST', body: JSON.stringify(data) });
-
         reset();
     };
 
@@ -40,8 +36,8 @@ const SubmitEmailForm = ({} : submitEmailFormProps) => {
                 {...register("email", {
                     required: "Email обязателен",
                     pattern: {
-                    value: /^\S+@\S+$/i,
-                    message: "Неверный формат email",
+                        value: /^\S+@\S+$/i,
+                        message: "Неверный формат email",
                     },
                 })}
                 className="w-full border px-2 py-1 rounded"
