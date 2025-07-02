@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 type searchProps = {
     fields?: string[];
     field?: string;
-    modes?: string;
+    mode?: string;
     onSearchChange: (args: {query: string}) => void;
 }
 
@@ -15,25 +15,28 @@ const enumModes = {
     2: "fields",
 }
 
-const Search = ({field, fields, modes = enumModes[0], onSearchChange} : searchProps) => {
-    const [searchQuery, setsSearchQuery] = useState("");
+const Search = ({field, fields, mode = enumModes[0], onSearchChange} : searchProps) => {
     const [activeFields, setActiveFields] = useState<Record<string, boolean>>({});
     const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
+    const [currentMode, setCurrentMode] = useState(mode)
 
-    // validations of modes
-    if (!fields || fields?.length == 0 && modes == enumModes[2]) {
-        modes = enumModes[0]
-    }
-    if (!field && modes == enumModes[1]) modes = enumModes[0];
+   
 
     useEffect(() => {
+
+        // validations of modes
+        if (!fields || fields?.length == 0 && currentMode == enumModes[2]) {
+            setCurrentMode(enumModes[0])
+        }
+        if (!field && mode == enumModes[1]) setCurrentMode(enumModes[0]);
+
         const activeParams = Object.entries(fieldValues)
-        .filter(([key, val]) => activeFields[key] && val.trim() !== '')
+        .filter(([key, val]) => mode == enumModes[2] ? (activeFields[key] && val.trim() !== '') : true )
         .reduce((acc, [key, val]) => {
             acc.set(key, val.trim());
             return acc;
         }, new URLSearchParams());
-
+        console.log(activeParams)
         onSearchChange({ query: activeParams.toString() });
     }, [activeFields, fieldValues]);
 
@@ -50,20 +53,16 @@ const Search = ({field, fields, modes = enumModes[0], onSearchChange} : searchPr
         <>
             <h1>Search</h1>    
             {
-                modes === enumModes[1] 
+                mode === enumModes[1] 
                     &&             
                 <div style={{width: '200px', height: '50px', border: "1px solid black"}}>
-                <input style={{width: '100%', height: "100%"}} onChange={(e)=>{
-                    let val = {
-                        field : e.target.value,
-                    }
-                    const queryString = new URLSearchParams(val).toString();
-                    setsSearchQuery(queryString);
-                }} />
-            </div>
+                    <input style={{width: '100%', height: "100%"}} onChange={(e)=>{
+                        if (field) handleInputChange(field, e.target.value);
+                    }} />
+                </div>
             }   
             {
-                modes === enumModes[2] 
+                mode === enumModes[2] 
                     &&
                 fields?.map((field) => (
                 <div key={field} className="flex items-center gap-4 mb-2">

@@ -25,7 +25,7 @@ function VerifiedEmailsPage({ emails }: Props) {
 
   return (
     <div className="min-h-screen p-8 sm:p-20">
-      <Search fields={["email", "status"]} modes="fields" onSearchChange={emailStore.filterEmails.bind(emailStore)}/>
+      <Search field="email" fields={["email", "status"]} mode="single" onSearchChange={emailStore.filterEmails.bind(emailStore)}/>
       <VerifiedEmails emails={emailStore.filteredEmails} />
     </div>
   );
